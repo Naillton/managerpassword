@@ -66,6 +66,10 @@ public class UserService {
         }
     }
 
+    public void delAllUsers() {
+        this.userRepository.deleteAll();
+    }
+
     private String generateToken(User user) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
