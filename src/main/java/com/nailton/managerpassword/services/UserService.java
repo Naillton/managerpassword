@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -22,10 +24,28 @@ public class UserService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    public List<User> getUsers() {
+        return (List<User>) this.userRepository.findAll();
+    }
+
+    public User getUserById(UUID id) {
+        return this.userRepository.findById(id).orElse(null);
+    }
+
     public void insertUser(User user) {
         String hashedPass = encodePass(user.getPassword());
         user.setPassword(hashedPass);
         this.userRepository.save(user);
+    }
+
+    public void updateUser(User user, UUID id) {
+        User updateU = this.getUserById(id);
+        String hashedPass = encodePass(user.getPassword());
+        user.setPassword(hashedPass);
+        updateU.setName(user.getName());
+        updateU.setEmail(user.getEmail());
+        updateU.setPassword(user.getPassword());
+        this.userRepository.save(updateU);
     }
 
     public User findUserByEmail(String email) {
