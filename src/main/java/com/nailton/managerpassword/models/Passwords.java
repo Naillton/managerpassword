@@ -11,22 +11,18 @@ public class Passwords {
     @Id
     private final UUID id;
 
-    private String applicationName;
+    private String app;
     
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public Passwords() {
         this.id = UUID.randomUUID();
     }
 
-    public Passwords(String applicationName, String password) {
+    public Passwords(String app, String password) {
         this.id = UUID.randomUUID();
+        this.app = app;
         this.password = password;
-        this.applicationName = applicationName;
     }
 
     public UUID getId() {
@@ -34,7 +30,7 @@ public class Passwords {
     }
 
     public String getApplicationName() {
-        return applicationName;
+        return app;
     }
 
     public String getPassword() {
@@ -42,18 +38,10 @@ public class Passwords {
     }
 
     public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+        this.app = applicationName;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

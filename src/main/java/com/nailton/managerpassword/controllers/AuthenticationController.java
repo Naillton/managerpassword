@@ -25,19 +25,22 @@ public class AuthenticationController {
     @PostMapping(value = "/register")
     public ResponseEntity<String> insertUser(@RequestBody UserDTO userDTO) {
         User validUser = this.userService.findUserByEmail(userDTO.email());
+        String exist = "User Already Exist";
+        String invalid = "Invalid Camps";
+        String created = "User Created";
         if (validUser != null) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("User/Already/Exist");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(exist);
         } else {
             boolean isTrue = UserMiddleware.validCredentials(userDTO.name(), userDTO.email(), userDTO.password());
             if (isTrue) {
                 try {
                     this.userService.insertUser(userDTO.toEntity());
-                    return ResponseEntity.status(HttpStatus.CREATED).body("User/Created");
+                    return ResponseEntity.status(HttpStatus.CREATED).body(created);
                 } catch (Exception e) {
                     return ResponseEntity.internalServerError().build();
                 }
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Invalid/Camps");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(invalid);
             }
         }
     }

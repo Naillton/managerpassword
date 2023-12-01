@@ -2,6 +2,7 @@ package com.nailton.managerpassword.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.nailton.managerpassword.models.Passwords;
 import com.nailton.managerpassword.models.User;
 import com.nailton.managerpassword.repositories.UserRepository;
 import org.jvnet.hk2.annotations.Service;
@@ -48,6 +49,16 @@ public class UserService {
         this.userRepository.save(updateU);
     }
 
+    public String updateListPassword(String email, Passwords pass) {
+        User user = this.findUserByEmail(email);
+        if (user == null) {
+            return "User Not Exist";
+        }
+        user.addPasswordsList(pass);
+        this.userRepository.save(user);
+        return "Update List Password";
+    }
+
     public User findUserByEmail(String email) {
         return this.userRepository.findUserByEmail(email);
     }
@@ -64,6 +75,10 @@ public class UserService {
         } else {
             return "User Not Found";
         }
+    }
+
+    public void deleteUserById(UUID id) {
+        this.userRepository.deleteById(id);
     }
 
     public void delAllUsers() {

@@ -1,6 +1,7 @@
 package com.nailton.managerpassword.models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Transactional
 @Table(name = "user")
 public class User implements UserDetails {
 
@@ -22,7 +24,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_user_id", referencedColumnName = "id")
     private List<Passwords> passwordsList;
 
     public User() {

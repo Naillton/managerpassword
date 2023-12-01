@@ -15,4 +15,8 @@ public class UserMiddleware {
         boolean isValidEmail = patternMatches(email);
         return name.length() >= 3 && isValidEmail && password.length() >= 8;
     }
+
+    public static boolean validPass(String app, String pass) {
+        return app.length() >= 4 && pass.length() >= 8;
+    }
 }
