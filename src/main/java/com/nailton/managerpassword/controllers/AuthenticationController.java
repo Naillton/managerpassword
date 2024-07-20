@@ -7,6 +7,7 @@ import com.nailton.managerpassword.models.User;
 import com.nailton.managerpassword.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +46,9 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> loginUser(@RequestBody AuthenticationDTO authenticationDTO) {
         try {
             String response = this.userService.findUserByEmailAndPassword(authenticationDTO.email(), authenticationDTO.password());
